@@ -3,7 +3,450 @@
 ═══════════════════════════════════════════ */
 :root {
   --bg:        #0A0A09;
+  --surface:   #131312;/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --bg:        #0A0A09;
   --surface:   #131312;
+  --border:    #1E1E1C;
+  --text:      #F2EDE8;
+  --muted:     #6A6A66;
+  --accent:    #C4A46A;   /* warm antique gold */
+  --yle-red:   #D0021B;
+  --nav-h:     64px;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Space Grotesk', system-ui, sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img   { display: block; max-width: 100%; }
+a     { color: inherit; text-decoration: none; }
+ul    { list-style: none; }
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  z-index: 100;
+  background: rgba(10, 10, 9, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav__progress {
+  position: absolute;
+  top: 0; left: 0;
+  height: 1px;
+  width: 0%;
+  background: var(--accent);
+  transition: width 80ms linear;
+}
+
+.nav__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__logo {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  transition: color 0.25s;
+}
+.nav__logo:hover { color: var(--text); }
+
+.nav__links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav__link {
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.2s;
+  position: relative;
+}
+.nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav__link:hover,
+.nav__link.is-active { color: var(--accent); }
+.nav__link:hover::after,
+.nav__link.is-active::after { transform: scaleX(1); }
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: calc(var(--nav-h) + 4rem) 2rem 5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hero__name {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(4.5rem, 13vw, 11rem);
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1.75rem;
+}
+
+.hero__tagline {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2rem;
+  font-size: 1.1rem;
+  color: var(--muted);
+  animation: bob 2.4s ease-in-out infinite;
+  transition: color 0.2s;
+}
+.hero__scroll:hover { color: var(--accent); }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+/* ═══════════════════════════════════════════
+   SECTIONS (shared)
+═══════════════════════════════════════════ */
+.section {
+  padding: 8rem 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.section__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section__label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 3rem;
+}
+
+/* ═══════════════════════════════════════════
+   ART STRIP  (album art marquee)
+═══════════════════════════════════════════ */
+.art-strip {
+  overflow: hidden;
+  margin-bottom: 2rem;
+  /* Hidden until JS populates it */
+  height: 0;
+  transition: height 0.4s ease;
+}
+.art-strip.is-loaded {
+  height: 72px;
+}
+
+.art-strip__track {
+  display: flex;
+  gap: 3px;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.art-strip__track:hover { animation-play-state: paused; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.art-strip__img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  opacity: 0.28;
+  transition: opacity 0.25s;
+  display: block;
+  flex-shrink: 0;
+}
+.art-strip__img:hover { opacity: 0.85; }
+
+/* ═══════════════════════════════════════════
+   SPOTIFY EMBED
+═══════════════════════════════════════════ */
+.playlist-wrap {
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.playlist-wrap iframe {
+  display: block;
+}
+
+/* ═══════════════════════════════════════════
+   CROSS-SERVICE LINKS
+═══════════════════════════════════════════ */
+.stream-services {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stream-services__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.stream-services__links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.service-btn {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: border-color 0.2s, color 0.2s;
+}
+.service-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ═══════════════════════════════════════════
+   YLE AREENA CARDS
+═══════════════════════════════════════════ */
+.areena-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+}
+
+.areena-card {
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 160px;
+  transition: background 0.2s;
+}
+.areena-card:hover { background: var(--surface); }
+
+.areena-card__thumb {
+  background: var(--surface);
+  overflow: hidden;
+  position: relative;
+  /* Subtle dark placeholder when no image set */
+  background: linear-gradient(135deg, #141210, #1c1410);
+}
+.areena-card__thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.areena-card__body {
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.areena-card__badge {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--yle-red);
+}
+
+.areena-card__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.15;
+  color: var(--text);
+  margin-top: 0.1rem;
+}
+
+.areena-card__role {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+.areena-card__date {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.areena-card__cta {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: auto;
+  padding-top: 0.75rem;
+  transition: letter-spacing 0.25s;
+}
+.areena-card:hover .areena-card__cta {
+  letter-spacing: 0.18em;
+}
+
+/* ═══════════════════════════════════════════
+   BIO
+═══════════════════════════════════════════ */
+.section--bio { padding-bottom: 6rem; }
+
+.bio { max-width: 58ch; }
+
+.bio__text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.85;
+  color: var(--muted);
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 1.75rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.footer__socials {
+  display: flex;
+  gap: 1.75rem;
+}
+.footer__socials a {
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  transition: color 0.2s;
+}
+.footer__socials a:hover { color: var(--accent); }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 700px) {
+  .areena-card {
+    grid-template-columns: 1fr;
+  }
+  .areena-card__thumb {
+    height: 180px;
+    position: relative;
+  }
+  .areena-card__body {
+    padding: 1.25rem 1.25rem;
+  }
+  .stream-services {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav__links { gap: 1.5rem; }
+  .footer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   REDUCED MOTION
+═══════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero__scroll { animation: none; }
+  .art-strip__track { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+
   --border:    #1E1E1C;
   --text:      #F2EDE8;
   --muted:     #6A6A66;
