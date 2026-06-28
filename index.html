@@ -7,7 +7,166 @@
   <meta name="description" content="Musician & Producer — music, live video, and more." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artist Name</title>
+  <meta name="description" content="Musician & Producer — music, live video, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Grotesk:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ─── FIXED NAV ─────────────────────────────────── -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__progress" aria-hidden="true"></div>
+    <div class="nav__inner">
+      <a href="#home" class="nav__logo">AN</a><!-- replace with your initials -->
+      <ul class="nav__links" role="list">
+        <li><a href="#music"  class="nav__link">Music</a></li>
+        <li><a href="#video"  class="nav__link">Video</a></li>
+        <li><a href="#bio"    class="nav__link">Bio</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ──────────────────────────────────────── -->
+  <section class="hero" id="home" aria-label="Introduction">
+    <div class="hero__inner">
+      <h1 class="hero__name">
+        Artist<br />Name
+      </h1>
+      <p class="hero__tagline">Musician &amp; Producer</p>
+    </div>
+    <a href="#music" class="hero__scroll" aria-label="Scroll to music">↓</a>
+  </section>
+
+  <!-- ─── MUSIC ─────────────────────────────────────── -->
+  <section class="section" id="music" aria-label="Music">
+    <div class="section__inner">
+      <p class="section__label">Music</p>
+
+      <!--
+        Album art marquee — populated from data/playlist.json by app.js.
+        Run the GitHub Actions workflow (fetch-playlist.yml) once to generate
+        that file. Until then this strip is simply invisible.
+      -->
+      <div class="art-strip" aria-hidden="true">
+        <div class="art-strip__track" id="artTrack"></div>
+      </div>
+
+      <!-- Spotify playlist embed — replace PLAYLIST_ID with your playlist's ID -->
+      <!-- Find it: open your playlist in Spotify → Share → Copy link → the ID is after /playlist/ -->
+      <div class="playlist-wrap">
+        <iframe
+          src="https://open.spotify.com/embed/playlist/PLAYLIST_ID?utm_source=generator&theme=0"
+          width="100%"
+          height="400"
+          frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          title="Spotify playlist"
+        ></iframe>
+      </div>
+
+      <!--
+        Cross-service links — fill in the href for each platform.
+        For individual tracks/albums: use song.link (https://odesli.co)
+        to auto-generate a universal link from your Spotify URL.
+        For the playlist itself: create it on each service, link directly.
+        Remove any services you don't use.
+      -->
+      <div class="stream-services">
+        <p class="stream-services__label">Listen also on</p>
+        <div class="stream-services__links">
+          <a href="#" class="service-btn" target="_blank" rel="noopener">Tidal</a>
+          <a href="#" class="service-btn" target="_blank" rel="noopener">Apple Music</a>
+          <a href="#" class="service-btn" target="_blank" rel="noopener">YouTube Music</a>
+          <a href="#" class="service-btn" target="_blank" rel="noopener">SoundCloud</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── VIDEO ─────────────────────────────────────── -->
+  <section class="section" id="video" aria-label="Video">
+    <div class="section__inner">
+      <p class="section__label">Video</p>
+
+      <!--
+        Yle Areena appearance cards.
+        - href: full Areena URL, e.g. https://areena.yle.fi/1-1234567
+        - thumb: screenshot saved to assets/thumbs/, uncomment <img> when ready
+        - role: short description of what you did
+        Duplicate the whole <a class="areena-card"> block for each appearance.
+      -->
+      <div class="areena-grid">
+
+        <a class="areena-card" href="https://areena.yle.fi/1-REPLACE_ID" target="_blank" rel="noopener">
+          <div class="areena-card__thumb">
+            <!-- <img src="assets/thumbs/appearance1.jpg" alt="Screenshot from Program Name" /> -->
+          </div>
+          <div class="areena-card__body">
+            <span class="areena-card__badge">Yle Areena</span>
+            <h3 class="areena-card__title">Program Name</h3>
+            <p class="areena-card__role">Live performance · Guest musician</p>
+            <p class="areena-card__date">15 March 2024</p>
+            <span class="areena-card__cta">Watch on Yle Areena →</span>
+          </div>
+        </a>
+
+        <a class="areena-card" href="https://areena.yle.fi/1-REPLACE_ID" target="_blank" rel="noopener">
+          <div class="areena-card__thumb">
+            <!-- <img src="assets/thumbs/appearance2.jpg" alt="Screenshot from Another Program" /> -->
+          </div>
+          <div class="areena-card__body">
+            <span class="areena-card__badge">Yle Areena</span>
+            <h3 class="areena-card__title">Another Program</h3>
+            <p class="areena-card__role">Studio session · Songwriter</p>
+            <p class="areena-card__date">4 November 2023</p>
+            <span class="areena-card__cta">Watch on Yle Areena →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── BIO ───────────────────────────────────────── -->
+  <section class="section section--bio" id="bio" aria-label="Bio">
+    <div class="section__inner">
+      <p class="section__label">Bio</p>
+      <div class="bio">
+        <p class="bio__text">
+          Your bio goes here. Keep it honest and short — a few sentences about
+          who you are, where you're from, what you make, and what drives it.
+          The less it sounds like a press release, the better.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ────────────────────────────────────── -->
+  <footer class="footer">
+    <p class="footer__copy">© <span id="year"></span> Artist Name</p>
+    <nav class="footer__socials" aria-label="Social links">
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="#" target="_blank" rel="noopener">Spotify</a>
+      <a href="#" target="_blank" rel="noopener">Tidal</a>
+    </nav>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
+
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Grotesk:wght@300;400;500&display=swap"
     rel="stylesheet"
   />
