@@ -1,0 +1,83 @@
+name: Fetch Spotify Playlist Data
+
+# ─── Triggers ────────────────────────────────────────────────────────────────
+# workflow_dispatch: allows cron-job.org (or manual trigger) to kick this off
+# via the GitHub API — same pattern used in WC2026 apps to work around GitHub's
+# "inactivity" suspension of scheduled workflows when only bot commits are present.
+#
+# To set up cron-job.org:
+#   1. Go to cron-job.org, create a free account
+#   2. New job → URL: https://api.github.com/repos/USERNAME/REPO/actions/workflows/fetch-playlist.yml/dispatches
+#   3. Method: POST
+#   4. Headers: Authorization: Bearer YOUR_GITHUB_PAT, Content-Type: application/json
+#   5. Body: {"ref":"main"}
+#   6. Schedule: daily, whatever time suits
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * *'   # 5am UTC daily as a fallback
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── Step 1: Get a client credentials token from Spotify ──────────────
+      # Requires two GitHub Secrets set in repo Settings → Secrets → Actions:
+      #   SPOTIFY_CLIENT_ID     — from https://developer.spotify.com/dashboard
+      #   SPOTIFY_CLIENT_SECRET — from the same place
+      - name: Get Spotify access token
+        id: token
+        run: |
+          TOKEN=$(curl -s -X POST "https://accounts.spotify.com/api/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=client_credentials" \
+            -d "client_id=${{ secrets.SPOTIFY_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.SPOTIFY_CLIENT_SECRET }}" \
+            | jq -r '.access_token')
+          if [ "$TOKEN" = "null" ] || [ -z "$TOKEN" ]; then
+            echo "Failed to get Spotify token" >&2
+            exit 1
+          fi
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      # ── Step 2: Fetch playlist tracks and write data/playlist.json ────────
+      # SPOTIFY_PLAYLIST_ID: set this as a GitHub Variable (not a Secret) under
+      # Settings → Secrets → Actions → Variables. It's just the playlist ID,
+      # the part after /playlist/ in the Spotify URL.
+      #
+      # The API returns up to 50 tracks per page. For longer playlists add
+      # pagination (offset=50, 100, etc.) and merge the results.
+      - name: Fetch playlist tracks
+        run: |
+          mkdir -p data
+          curl -s "https://api.spotify.com/v1/playlists/${{ vars.SPOTIFY_PLAYLIST_ID }}/tracks?fields=items(track(name,album(name,images)))&limit=50" \
+            -H "Authorization: Bearer ${{ steps.token.outputs.token }}" \
+            | jq '[
+                .items[]
+                | select(.track != null)
+                | {
+                    name:  .track.name,
+                    album: .track.album.name,
+                    art:   .track.album.images[1].url   # 300×300 image
+                  }
+              ]
+              | unique_by(.art)' \
+            > data/playlist.json
+          echo "Wrote $(jq length data/playlist.json) unique album art entries"
+
+      # ── Step 3: Commit if the file changed ───────────────────────────────
+      - name: Commit playlist data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/playlist.json
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "chore: update playlist data [skip ci]"
+          git push
