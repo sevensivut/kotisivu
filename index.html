@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artist Name</title>
+  <meta name="description" content="Musician & Producer — music, live video, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Grotesk:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ─── FIXED NAV ─────────────────────────────────── -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__progress" aria-hidden="true"></div>
+    <div class="nav__inner">
+      <a href="#home" class="nav__logo">AN</a><!-- replace AN with your initials -->
+      <ul class="nav__links" role="list">
+        <li><a href="#music" class="nav__link">Music</a></li>
+        <li><a href="#video" class="nav__link">Video</a></li>
+        <li><a href="#bio" class="nav__link">Bio</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ──────────────────────────────────────── -->
+  <section class="hero" id="home" aria-label="Introduction">
+    <div class="hero__inner">
+      <h1 class="hero__name">
+        Artist<br />Name
+        <!-- replace with your actual name, linebreak optional -->
+      </h1>
+      <p class="hero__tagline">Musician &amp; Producer</p>
+    </div>
+    <a href="#music" class="hero__scroll" aria-label="Scroll to music">↓</a>
+  </section>
+
+  <!-- ─── MUSIC ─────────────────────────────────────── -->
+  <section class="section" id="music" aria-label="Music">
+    <div class="section__inner">
+      <p class="section__label">Music</p>
+
+      <div class="music-grid">
+
+        <!-- ── Music card — duplicate and fill in for each release ── -->
+        <article class="music-card">
+          <div class="music-card__art">
+            <!-- <img src="assets/covers/cover1.jpg" alt="Cover art for Song Title" /> -->
+          </div>
+          <div class="music-card__info">
+            <h3 class="music-card__title">Song Title</h3>
+            <p class="music-card__meta">Single · 2024</p>
+            <div class="music-card__links">
+              <a href="#" class="stream-link" target="_blank" rel="noopener">Spotify</a>
+              <a href="#" class="stream-link" target="_blank" rel="noopener">Apple Music</a>
+              <a href="#" class="stream-link" target="_blank" rel="noopener">YouTube</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="music-card">
+          <div class="music-card__art"></div>
+          <div class="music-card__info">
+            <h3 class="music-card__title">Another Title</h3>
+            <p class="music-card__meta">EP · 2023</p>
+            <div class="music-card__links">
+              <a href="#" class="stream-link" target="_blank" rel="noopener">Spotify</a>
+              <a href="#" class="stream-link" target="_blank" rel="noopener">Apple Music</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="music-card">
+          <div class="music-card__art"></div>
+          <div class="music-card__info">
+            <h3 class="music-card__title">Third Release</h3>
+            <p class="music-card__meta">Single · 2023</p>
+            <div class="music-card__links">
+              <a href="#" class="stream-link" target="_blank" rel="noopener">Spotify</a>
+              <a href="#" class="stream-link" target="_blank" rel="noopener">Apple Music</a>
+              <a href="#" class="stream-link" target="_blank" rel="noopener">SoundCloud</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── VIDEO ─────────────────────────────────────── -->
+  <section class="section" id="video" aria-label="Video">
+    <div class="section__inner">
+      <p class="section__label">Video</p>
+
+      <div class="video-grid">
+
+        <!-- ── Paste YouTube embed src per video ── -->
+        <!-- Replace VIDEO_ID with the part after ?v= in the YouTube URL -->
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/VIDEO_ID_1"
+            title="Live performance — Venue Name"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/VIDEO_ID_2"
+            title="Live performance — Another Venue"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/VIDEO_ID_3"
+            title="Live session"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── BIO ───────────────────────────────────────── -->
+  <section class="section section--bio" id="bio" aria-label="Bio">
+    <div class="section__inner">
+      <p class="section__label">Bio</p>
+      <div class="bio">
+        <p class="bio__text">
+          Your bio goes here. Keep it honest and short — a few sentences about
+          who you are, where you're from, what you make, and what drives it.
+          The less it sounds like a press release, the better.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ────────────────────────────────────── -->
+  <footer class="footer">
+    <p class="footer__copy">© <span id="year"></span> Artist Name</p>
+    <nav class="footer__socials" aria-label="Social links">
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="#" target="_blank" rel="noopener">Spotify</a>
+      <a href="#" target="_blank" rel="noopener">YouTube</a>
+    </nav>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
